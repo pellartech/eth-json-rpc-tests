@@ -1,0 +1,16 @@
+{
+  "name": "eth-json-rpc-tests",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "scripts": {
+    "test": "mocha -r dotenv/config"
+  },
+  "dependencies": {
+    "@ethereumjs/tx": "^4.0.1",
+    "chai": "^4.3.6",
+    "dotenv": "^16.0.3",
+    "ethers": "^5.7.2",
+    "mocha": "^10.1.0",
+    "supertest": "^6.3.1"
+  }
+}
