@@ -5,6 +5,8 @@ A simple suite of tests which can be used to test an Ethereum JSON-RPC api meets
 
 Built with Mocha, Supertest, ethers.js and Yarn.
 
+`./test/setup.js` can be modified to change the order of test execution or to remove an RPC method from being tested.
+
 
 ### 1. Install Dependencies
 ```

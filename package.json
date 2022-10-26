@@ -1,9 +1,9 @@
 {
   "name": "eth-json-rpc-tests",
   "version": "1.0.0",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
-    "test": "mocha -r dotenv/config"
+    "test": "mocha -r dotenv/config ./test/setup.js --timeout 35000"
   },
   "dependencies": {
     "@ethereumjs/tx": "^4.0.1",
