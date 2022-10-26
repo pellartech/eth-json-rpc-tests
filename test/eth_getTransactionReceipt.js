@@ -1,5 +1,4 @@
 const supertest = require('supertest')
-const assert = require('assert')
 const expect = require('chai').expect
 const request = supertest(process.env.ETH_JSON_RPC_URL)
 
@@ -10,49 +9,48 @@ const payload = {
   id: 1
 }
 
-describe('eth_getTransactionReceipt', function () {
-  describe('happy path', function () {
-    it('should return the receipt of the transaction', async function () {
-      payload.params = [
-        "0x621db92c957bfd645e30529dd7df612cd95c3c14a3b9896c204739903308d0c8"
-      ]
-      const response = await request
-        .post('/')
-        .send(payload)
-        .expect('Content-Type', /json/)
-        .expect(200);
-      expect(response.body.jsonrpc, "2.0");
-      expect(response.body.id, 1);
-      expect(response.body.result).to.contain.all.keys(
-        'blockHash',
-        'blockNumber',
-        'contractAddress',
-        'cumulativeGasUsed',
-        'effectiveGasPrice',
-        'from',
-        'gasUsed',
-        'logs',
-        'logsBloom',
-        'status',
-        'to',
-        'transactionHash',
-        'transactionIndex',
-        'type');
-    })
+describe('happy path', function () {
+  it('returns the receipt of the transaction by transaction hash', async function () {
+    payload.params = [
+      '0x7eb8b4c40d664f9e342068fcfbfffdd6654eedd0a5a27d5ef3d52f86a698c82c'
+    ]
+    const response = await request
+      .post('/')
+      .send(payload)
+      .expect('Content-Type', /json/)
+      .expect(200);
+    expect(response.body.jsonrpc, "2.0");
+    expect(response.body.id, 1);
+    expect(response.body.result).to.contain.all.keys(
+      'blockHash',
+      'blockNumber',
+      'contractAddress',
+      'cumulativeGasUsed',
+      'effectiveGasPrice',
+      'from',
+      'gasUsed',
+      'logs',
+      'logsBloom',
+      'status',
+      'to',
+      'transactionHash',
+      'transactionIndex',
+      'type');
   })
-  describe('no/pending receipt', function () {
-    it('should return result null', async function () {
-      payload.params = [
-        "0xd35d815ee71abe580283fd43f5a92184eb07e4a5c09c8aeb609e391d378fffff"
-      ]
-      const response = await request
-        .post('/')
-        .send(payload)
-        .expect('Content-Type', /json/)
-        .expect(200);
-      expect(response.body.jsonrpc, "2.0");
-      expect(response.body.id, 1);
-      expect(response.body.result).to.be.null;
-    })
+})
+
+describe('no/pending receipt', function () {
+  it('should return result null', async function () {
+    payload.params = [
+      "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    ]
+    const response = await request
+      .post('/')
+      .send(payload)
+      .expect('Content-Type', /json/)
+      .expect(200);
+    expect(response.body.jsonrpc, "2.0");
+    expect(response.body.id, 1);
+    expect(response.body.result).to.be.null;
   })
 })
