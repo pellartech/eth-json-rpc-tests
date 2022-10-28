@@ -1,5 +1,5 @@
-const ethers = require("ethers")
-const Tx = require("@ethereumjs/tx").Transaction
+const ethers = require('ethers')
+const Tx = require('@ethereumjs/tx').Transaction
 
 const provider = new ethers.providers.JsonRpcProvider(process.env.ETH_JSON_RPC_URL)
 provider.chainId = process.env.CHAIN_ID
