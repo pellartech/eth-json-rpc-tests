@@ -119,7 +119,7 @@ describe('block param pending', function () {
 })
 
 describe('no params', function () {
-  it('returns error missing value for required argument 0', async function () {
+  it('returns error -32602 missing value for required argument 0', async function () {
     payload.params = []
     const response = await request
       .post('/')
@@ -153,7 +153,7 @@ describe('empty param 0', function () {
 })
 
 describe('empty param 1', function () {
-  it('returns error missing value for required argument 1', async function () {
+  it('returns the value from a storage position as hex', async function () {
     payload.params = [
       '0xffffffffffffffffffffffffffffffffffffffff',
       '',
@@ -209,7 +209,7 @@ describe('incorrect param 0', function () {
 })
 
 describe('incorrect param 1', function () {
-  it('returns error -32602 missing value for required argument 0', async function () {
+  it('returns the value from a storage position as hex', async function () {
     payload.params = [
       '0xffffffffffffffffffffffffffffffffffffffff',
       '1234',

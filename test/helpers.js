@@ -20,6 +20,10 @@ module.exports = {
 
     const rawTransaction = await wallet.signTransaction(tx).then(ethers.utils.serializeTransaction(tx));
     return rawTransaction
+  },
+  async getTxnReceipt(hash) {
+    const receipt = await provider.getTransactionReceipt(hash)
+    return receipt
   }
 }
 

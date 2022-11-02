@@ -27,8 +27,6 @@ describe('happy path', function () {
   })
 })
 
-
-
 describe('no params', function () {
   it('returns error -32602 missing value for required argument 0', async function () {
     payload.params = []
@@ -124,7 +122,6 @@ describe('unkown block number', function () {
       .expect(200);
     expect(response.body.jsonrpc).to.equal('2.0')
     expect(response.body.id).to.equal(1)
-    console.log()
     expect(response.body.result).to.be.null
   })
 })

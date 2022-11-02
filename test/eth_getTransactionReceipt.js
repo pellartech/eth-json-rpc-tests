@@ -12,15 +12,15 @@ const payload = {
 describe('happy path', function () {
   it('returns the receipt of the transaction by transaction hash', async function () {
     payload.params = [
-      '0x7eb8b4c40d664f9e342068fcfbfffdd6654eedd0a5a27d5ef3d52f86a698c82c'
+      global.TRANSACTION_HASH
     ]
     const response = await request
       .post('/')
       .send(payload)
       .expect('Content-Type', /json/)
       .expect(200);
-    expect(response.body.jsonrpc, "2.0");
-    expect(response.body.id, 1);
+    expect(response.body.jsonrpc, "2.0")
+    expect(response.body.id, 1)
     expect(response.body.result).to.contain.all.keys(
       'blockHash',
       'blockNumber',
@@ -35,7 +35,7 @@ describe('happy path', function () {
       'to',
       'transactionHash',
       'transactionIndex',
-      'type');
+      'type')
   })
 })
 
@@ -49,8 +49,53 @@ describe('no/pending receipt', function () {
       .send(payload)
       .expect('Content-Type', /json/)
       .expect(200);
-    expect(response.body.jsonrpc, "2.0");
-    expect(response.body.id, 1);
-    expect(response.body.result).to.be.null;
+    expect(response.body.jsonrpc, "2.0")
+    expect(response.body.id, 1)
+    expect(response.body.result).to.be.null
+  })
+})
+
+describe('no params', function () {
+  it('returns error -32602 missing value for required argument 0', async function () {
+    payload.params = []
+    const response = await request
+      .post('/')
+      .send(payload)
+      .expect('Content-Type', /json/)
+      .expect(200);
+    expect(response.body.jsonrpc).to.equal('2.0')
+    expect(response.body.id).to.equal(1)
+    expect(response.body.error.code).to.equal(-32602)
+    expect(response.body.error.message).to.equal('missing value for required argument 0')
+  })
+})
+
+describe('empty param 0', function () {
+  it('returns error -32602 invalid argument 0: hex string has length 0, want 64 for common.Hash', async function () {
+    payload.params = ['']
+    const response = await request
+      .post('/')
+      .send(payload)
+      .expect('Content-Type', /json/)
+      .expect(200);
+    expect(response.body.jsonrpc).to.equal('2.0')
+    expect(response.body.id).to.equal(1)
+    expect(response.body.error.code).to.equal(-32602)
+    expect(response.body.error.message).to.equal('invalid argument 0: hex string has length 0, want 64 for common.Hash')
+  })
+})
+
+describe('incorrect param 0', function () {
+  it('returns error -32602 invalid argument 0: json: cannot unmarshal hex string without 0x prefix into Go value of type common.Hash', async function () {
+    payload.params = ['1234']
+    const response = await request
+      .post('/')
+      .send(payload)
+      .expect('Content-Type', /json/)
+      .expect(200);
+    expect(response.body.jsonrpc).to.equal('2.0')
+    expect(response.body.id).to.equal(1)
+    expect(response.body.error.code).to.equal(-32602)
+    expect(response.body.error.message).to.equal('invalid argument 0: json: cannot unmarshal hex string without 0x prefix into Go value of type common.Hash')
   })
 })
